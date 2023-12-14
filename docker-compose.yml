@@ -1,0 +1,12 @@
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq-python
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - ./dados:/var/lib/rabbitmq/
+    env_file:
+      - .env
