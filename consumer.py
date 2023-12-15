@@ -9,7 +9,7 @@ class RabbitmqConsumer:
         self.__port = 5672
         self.__username = os.getenv("RABBITMQ_USERNAME", "guest")
         self.__password = os.getenv("RABBITMQ_PASSWORD", "guest")
-        self.__queue = "data_queue"
+        self.__queue = "data_queue3"
         self.__callback = callback
         self.__channel = self.__create_channel()
 
@@ -26,7 +26,10 @@ class RabbitmqConsumer:
         channel = pika.BlockingConnection(connection_parameters).channel()
         channel.queue_declare(
             queue=self.__queue,
-            durable=True
+            durable=True,
+            arguments={
+                "x-overflow":"reject-publish",
+            }
         )
         channel.basic_consume(
             queue=self.__queue,
